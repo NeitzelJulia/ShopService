@@ -19,4 +19,10 @@ public record Order(String id, Map<Product, Integer> products) {
         copy.remove(product);
         return new Order(id, Collections.unmodifiableMap(copy));
     }
+
+    public long totalInCents() {
+        return products.entrySet().stream()
+                .mapToLong(e -> e.getKey().priceInCents() * e.getValue())
+                .sum();
+    }
 }
