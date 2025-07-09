@@ -5,15 +5,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OrderListRepoTest {
+class OrderMapRepoTest {
 
-    private OrderListRepo orderListRepo;
+    private OrderMapRepo orderMapRepo;
     private Order order1;
     private Order order2;
 
     @BeforeEach
     void setUp() {
-        orderListRepo = new OrderListRepo();
+        orderMapRepo = new OrderMapRepo();
         Product product1 = new Product("SKU-001", "Kaffeetasse");
         Product product2 = new Product("SKU-002", "Laptop");
         order1 = new Order("ORD-001", List.of(product1));
@@ -22,51 +22,51 @@ class OrderListRepoTest {
 
     @Test
     void addAndGetOrderById() {
-        orderListRepo.addOrder(order1);
-        Order found = orderListRepo.getOrderById("ORD-001");
+        orderMapRepo.addOrder(order1);
+        Order found = orderMapRepo.getOrderById("ORD-001");
         assertNotNull(found);
         assertEquals(order1, found);
     }
 
     @Test
     void removeExistingOrder() {
-        orderListRepo.addOrder(order1);
-        orderListRepo.addOrder(order2);
+        orderMapRepo.addOrder(order1);
+        orderMapRepo.addOrder(order2);
 
-        boolean removed = orderListRepo.deleteOrderById("ORD-001");
+        boolean removed = orderMapRepo.deleteOrderById("ORD-001");
         assertTrue(removed);
 
-        List<Order> all = orderListRepo.getAllOrders();
+        List<Order> all = orderMapRepo.getAllOrders();
         assertEquals(1, all.size());
         assertTrue(all.contains(order2));
-        assertNull(orderListRepo.getOrderById("ORD-001"));
+        assertNull(orderMapRepo.getOrderById("ORD-001"));
     }
 
     @Test
     void removeNonExistingOrder() {
-        boolean removed = orderListRepo.deleteOrderById("NON-EXISTENT");
+        boolean removed = orderMapRepo.deleteOrderById("NON-EXISTENT");
         assertFalse(removed);
     }
 
     @Test
     void getOrderByIdWhenNotFound() {
-        Order found = orderListRepo.getOrderById("UNKNOWN");
+        Order found = orderMapRepo.getOrderById("UNKNOWN");
         assertNull(found);
     }
 
     @Test
     void getAllOrdersEmpty() {
-        List<Order> all = orderListRepo.getAllOrders();
+        List<Order> all = orderMapRepo.getAllOrders();
         assertNotNull(all, "getAllOrders darf nicht null sein");
         assertTrue(all.isEmpty());
     }
 
     @Test
     void getAllOrders() {
-        orderListRepo.addOrder(order1);
-        orderListRepo.addOrder(order2);
+        orderMapRepo.addOrder(order1);
+        orderMapRepo.addOrder(order2);
 
-        List<Order> all = orderListRepo.getAllOrders();
+        List<Order> all = orderMapRepo.getAllOrders();
         assertEquals(2, all.size());
         assertTrue(all.contains(order1));
         assertTrue(all.contains(order2));

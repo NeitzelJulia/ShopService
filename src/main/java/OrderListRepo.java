@@ -1,29 +1,34 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class OrderListRepo implements OrderRepoInterface{
 
-    Map<String, Order> orders = new HashMap<>();
+    private final List<Order> orders = new ArrayList<>();
 
     @Override
     public void addOrder(Order order) {
-        orders.put(order.id(), order);
+        orders.add(order);
     }
 
     @Override
     public Order getOrderById(String id) {
-        return orders.get(id);
+        for (Order order : orders) {
+            if (order.id().equals(id)) {
+                return order;
+            }
+        }
+        return null;
     }
 
     @Override
     public boolean deleteOrderById(String id) {
-        return orders.remove(id) != null;
+        return orders.removeIf(o -> o.id().equals(id));
+
     }
 
     @Override
     public List<Order> getAllOrders() {
-        return new ArrayList<>(orders.values());
+        return Collections.unmodifiableList(orders);
     }
 }
