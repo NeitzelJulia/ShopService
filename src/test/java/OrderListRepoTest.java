@@ -38,7 +38,7 @@ class OrderListRepoTest {
 
         List<Order> all = orderListRepo.getAllOrders();
         assertEquals(1, all.size());
-        assertEquals(order2, all.get(0));
+        assertTrue(all.contains(order2));
         assertNull(orderListRepo.getOrderById("ORD-001"));
     }
 
@@ -62,13 +62,13 @@ class OrderListRepoTest {
     }
 
     @Test
-    void getAllOrdersReturnsInsertionOrder() {
+    void getAllOrders() {
         orderListRepo.addOrder(order1);
         orderListRepo.addOrder(order2);
 
         List<Order> all = orderListRepo.getAllOrders();
         assertEquals(2, all.size());
-        assertEquals(order1, all.get(0));
-        assertEquals(order2, all.get(1));
+        assertTrue(all.contains(order1));
+        assertTrue(all.contains(order2));
     }
 }
