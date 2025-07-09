@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class ShopService {
 
     private final ProductRepo productRepo;
@@ -9,7 +11,10 @@ public class ShopService {
     }
 
     public boolean submitOrder(Order order) {
-        for (Product product : order.products()) {
+        for (Map.Entry<Product, Integer> entry : order.products().entrySet()) {
+            Product product = entry.getKey();
+            int quantity = entry.getValue();
+
             if (productRepo.getProductById(product.id()) == null) {
                 return false;
             }

@@ -1,2 +1,2 @@
-public record Product(String id, String name) {
+public record Product(String id, String name, long priceInCents) {
 }

@@ -14,8 +14,8 @@ class ProductRepoTest {
     @BeforeEach
     void setUp() {
         productRepo = new ProductRepo();
-        product1 = new Product("SKU-001", "Kaffeetasse");
-        product2 = new Product("SKU-002", "Laptop");
+        product1 = new Product("SKU-001", "Kaffeetasse", 399L);
+        product2 = new Product("SKU-002", "Laptop", 74900L);
     }
 
     @Test

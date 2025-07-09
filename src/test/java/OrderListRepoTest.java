@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,10 +15,10 @@ class OrderListRepoTest {
     @BeforeEach
     void setUp() {
         orderListRepo = new OrderListRepo();
-        Product product1 = new Product("SKU-001", "Kaffeetasse");
-        Product product2 = new Product("SKU-002", "Laptop");
-        order1 = new Order("ORD-001", List.of(product1));
-        order2 = new Order("ORD-002", List.of(product2));
+        Product product1 = new Product("SKU-001", "Kaffeetasse", 399L);
+        Product product2 = new Product("SKU-002", "Laptop", 74900L);
+        order1 = new Order("ORD-001", Map.of(product1, 1));
+        order2 = new Order("ORD-002", Map.of(product2, 1));
     }
 
     @Test
