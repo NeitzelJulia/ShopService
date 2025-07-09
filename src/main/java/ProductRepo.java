@@ -12,22 +12,15 @@ public class ProductRepo {
     }
 
     public Product getProductById(String id) {
-        Product product = products.get(id);
-        if (product == null) {
-            throw new IllegalArgumentException("Product with id " + id + " does not exist");
-        }
-        return product;
+        return products.get(id);
     }
 
     public List<Product> getAllProducts() {
         return new ArrayList<>(products.values());
     }
 
-    public void deleteProductById(String id) {
-        if (getProductById(id) == null) {
-            throw new IllegalArgumentException("Product with id " + id + " does not exist");
-        }
-        products.remove(id);
+    public boolean deleteProductById(String id) {
+        return products.remove(id) != null;
     }
 
 }
