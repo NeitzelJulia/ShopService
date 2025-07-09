@@ -1,7 +1,7 @@
 public class ShopService {
 
     private final ProductRepo productRepo;
-    private final OrderListRepo orderListRepo;
+    private final OrderRepoInterface orderListRepo;
 
     public ShopService(ProductRepo productRepo, OrderListRepo orderListRepo) {
         this.productRepo = productRepo;
