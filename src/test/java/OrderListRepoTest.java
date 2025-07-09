@@ -1,0 +1,74 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class OrderListRepoTest {
+
+    private OrderListRepo orderListRepo = new OrderListRepo();
+    private Order order1;
+    private Order order2;
+
+    @BeforeEach
+    void setUp() {
+        orderListRepo = new OrderListRepo();
+        Product product1 = new Product("SKU-001", "Kaffeetasse");
+        Product product2 = new Product("SKU-002", "Laptop");
+        order1 = new Order("ORD-001", List.of(product1));
+        order2 = new Order("ORD-002", List.of(product2));
+    }
+
+    @Test
+    void addAndGetOrderById() {
+        orderListRepo.addOrder(order1);
+        Order found = orderListRepo.getOrderById("ORD-001");
+        assertNotNull(found);
+        assertEquals(order1, found);
+    }
+
+    @Test
+    void removeExistingOrder() {
+        orderListRepo.addOrder(order1);
+        orderListRepo.addOrder(order2);
+
+        boolean removed = orderListRepo.deleteOrderById("ORD-001");
+        assertTrue(removed);
+
+        List<Order> all = orderListRepo.getAllOrders();
+        assertEquals(1, all.size());
+        assertEquals(order2, all.get(0));
+        assertNull(orderListRepo.getOrderById("ORD-001"));
+    }
+
+    @Test
+    void removeNonExistingOrder() {
+        boolean removed = orderListRepo.deleteOrderById("NON-EXISTENT");
+        assertFalse(removed);
+    }
+
+    @Test
+    void getOrderByIdWhenNotFound() {
+        Order found = orderListRepo.getOrderById("UNKNOWN");
+        assertNull(found);
+    }
+
+    @Test
+    void getAllOrdersEmpty() {
+        List<Order> all = orderListRepo.getAllOrders();
+        assertNotNull(all, "getAllOrders darf nicht null sein");
+        assertTrue(all.isEmpty());
+    }
+
+    @Test
+    void getAllOrdersReturnsInsertionOrder() {
+        orderListRepo.addOrder(order1);
+        orderListRepo.addOrder(order2);
+
+        List<Order> all = orderListRepo.getAllOrders();
+        assertEquals(2, all.size());
+        assertEquals(order1, all.get(0));
+        assertEquals(order2, all.get(1));
+    }
+}
