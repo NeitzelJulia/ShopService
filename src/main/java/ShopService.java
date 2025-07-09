@@ -1,11 +1,11 @@
 public class ShopService {
 
     private final ProductRepo productRepo;
-    private final OrderRepoInterface orderListRepo;
+    private final OrderRepoInterface orderRepo;
 
-    public ShopService(ProductRepo productRepo, OrderListRepo orderListRepo) {
+    public ShopService(ProductRepo productRepo, OrderRepoInterface orderRepo) {
         this.productRepo = productRepo;
-        this.orderListRepo = orderListRepo;
+        this.orderRepo = orderRepo;
     }
 
     public boolean submitOrder(Order order) {
@@ -15,7 +15,7 @@ public class ShopService {
             }
         }
 
-        orderListRepo.addOrder(order);
+        orderRepo.addOrder(order);
         return true;
     }
 
