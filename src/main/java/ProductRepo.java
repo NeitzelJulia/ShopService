@@ -1,11 +1,8 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductRepo {
 
-    Map<String, Product> products = new HashMap<>();
+    private final Map<String, Product> products = new HashMap<>();
 
     public void addProduct(Product product) {
         products.put(product.id(), product);
@@ -16,7 +13,8 @@ public class ProductRepo {
     }
 
     public List<Product> getAllProducts() {
-        return new ArrayList<>(products.values());
+        return List.copyOf(products.values());
+
     }
 
     public boolean deleteProductById(String id) {

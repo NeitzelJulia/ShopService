@@ -1,5 +1,3 @@
-import java.util.Map;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -15,18 +13,18 @@ public class Main {
         ShopService shopService = new ShopService(productRepo, orderRepo);
 
         // Eine gültige Bestellung anlegen und platzieren
-        Order order1 = new Order("ORD-1001", Map.ofEntries(
-                Map.entry(productRepo.getProductById("SKU-001"), 1),
-                Map.entry(productRepo.getProductById("SKU-002"),1)
-        ));
+        Order order1 = Order.empty("ORD-1001")
+                .addProduct(productRepo.getProductById("SKU-001"), 1)
+                .addProduct(productRepo.getProductById("SKU-002"), 2);
+
         boolean success1 = shopService.submitOrder(order1);
         System.out.printf("Order %s placed: %s%n", order1.id(), success1);
 
         // Eine Bestellung mit einem fehlenden Produkt anlegen
-        Order order2 = new Order("ORD-1002", Map.ofEntries(
-                Map.entry(productRepo.getProductById("SKU-001"),1),
-                Map.entry(new Product("SKU-999", "Unbekanntes Produkt", 123L),1)  // nicht im Repo
-        ));
+        Order order2 = Order.empty("ORD-1002")
+                .addProduct(productRepo.getProductById("SKU-001"), 1)
+                .addProduct(new Product("SKU-UNKNOWN", "unknown Product", 123L), 2);
+
         boolean success2 = shopService.submitOrder(order2);
         System.out.printf("Order %s placed: %s%n", order2.id(), success2);
 

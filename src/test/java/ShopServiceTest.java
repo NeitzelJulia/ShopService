@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.*;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,10 +28,10 @@ class ShopServiceTest {
         productRepo.addProduct(p1);
         productRepo.addProduct(p2);
 
-        Order order = new Order("ORD-001", Map.ofEntries(
-                Map.entry(p1, 1),
-                Map.entry(p2, 1)
-        ));
+        Order order = Order.empty("ORD-001")
+                .addProduct(p1, 1)
+                .addProduct(p2, 1);
+
         boolean result = shopService.submitOrder(order);
 
         assertTrue(result);
@@ -45,13 +44,9 @@ class ShopServiceTest {
     void submitOrder_MissingProduct_PrintsErrorAndDoesNotAdd() {
         productRepo.addProduct(p1);
 
-        Order order = new Order(
-                "ORD-002",
-                Map.ofEntries(
-                        Map.entry(p1,1),
-                        Map.entry(p2,1)
-                )
-        );
+        Order order = Order.empty("ORD-002")
+                .addProduct(p1, 1)
+                .addProduct(p2, 1);
 
         boolean result = shopService.submitOrder(order);
 
