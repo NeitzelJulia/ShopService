@@ -1,4 +1,6 @@
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ShopService {
 
@@ -22,6 +24,12 @@ public class ShopService {
 
         orderRepo.addOrder(order);
         return true;
+    }
+
+    public List<Order> getOrdersByStatus(OrderStatus status) {
+        return orderRepo.getAllOrders().stream()
+                .filter(order -> order.status() == status)
+                .collect(Collectors.toList());
     }
 
 }
