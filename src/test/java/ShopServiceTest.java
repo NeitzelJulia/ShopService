@@ -49,10 +49,10 @@ class ShopServiceTest {
                 .addProduct(p1, 1)
                 .addProduct(p2, 1);
 
-        boolean result = shopService.submitOrder(order);
-
-        assertFalse(result);
-        shopService.submitOrder(order);
+        assertThrows(
+                ProductNotFoundException.class,
+                () -> shopService.submitOrder(order)
+        );
 
         assertTrue(orderRepo.getAllOrders().isEmpty());
     }
