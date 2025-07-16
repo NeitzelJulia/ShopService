@@ -34,6 +34,7 @@ class ProductRepoTest {
         assertEquals(1, productRepo.getAllProducts().size());
     }
 
+    @Test
     void getProductByIdNonExistentReturnsEmptyOptional() {
         Optional<Product> result = productRepo.getProductById("SKU-UNKNOWN");
 
