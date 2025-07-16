@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,8 +22,9 @@ class ProductRepoTest {
     @Test
     void testAddAndGetProduct() {
         productRepo.addProduct(product1);
-        Product product = productRepo.getProductById("SKU-001");
-        assertEquals(product1, product);
+        Optional<Product> product = productRepo.getProductById("SKU-001");
+        assertTrue(product.isPresent());
+        assertEquals(product1, product.get());
     }
 
     @Test
@@ -32,9 +34,10 @@ class ProductRepoTest {
         assertEquals(1, productRepo.getAllProducts().size());
     }
 
-    @Test
-    void getProductByIdNonExistentReturnsNull() {
-        assertNull(productRepo.getProductById("SKU-UNKNOWN"));
+    void getProductByIdNonExistentReturnsEmptyOptional() {
+        Optional<Product> result = productRepo.getProductById("SKU-UNKNOWN");
+
+        assertFalse(result.isPresent(), "Expected no product for unknown SKU");
     }
 
     @Test

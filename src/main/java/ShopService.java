@@ -14,10 +14,9 @@ public class ShopService {
 
     public boolean submitOrder(Order order) {
         for (Map.Entry<Product, Integer> entry : order.products().entrySet()) {
-            Product product = entry.getKey();
-            int quantity = entry.getValue();
+            String productId = entry.getKey().id();
 
-            if (productRepo.getProductById(product.id()) == null) {
+            if (!productRepo.getProductById(productId).isPresent()) {
                 return false;
             }
         }
