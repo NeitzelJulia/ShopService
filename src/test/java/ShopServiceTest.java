@@ -81,4 +81,21 @@ class ShopServiceTest {
         assertNotNull(completedOrders);
         assertTrue(completedOrders.isEmpty());
     }
+
+    @Test
+    void updateOrder_existingOrder_changesStatus() {
+        Order original = Order.empty("ORD-10");
+        orderRepo.addOrder(original);
+
+        Order updated = shopService.updateOrderStatus("ORD-10", OrderStatus.COMPLETED);
+
+        assertEquals(OrderStatus.COMPLETED, updated.status());
+        assertEquals(updated, orderRepo.getOrderById("ORD-10"));
+    }
+
+    @Test
+    void updateOrder_nonExistingOrder_throws() {
+        assertThrows(OrderNotFoundException.class,
+                () -> shopService.updateOrderStatus("UNKNOWN", OrderStatus.COMPLETED));
+    }
 }
