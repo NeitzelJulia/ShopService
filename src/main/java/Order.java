@@ -1,7 +1,10 @@
+import lombok.With;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@With
 public record Order(
         String id,
         Map<Product, Integer> products,

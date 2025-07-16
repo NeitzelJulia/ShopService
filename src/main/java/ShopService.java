@@ -30,4 +30,16 @@ public class ShopService {
                 .collect(Collectors.toList());
     }
 
+    public Order updateOrderStatus(String orderId, OrderStatus newStatus) {
+        Order order = orderRepo.getOrderById(orderId);
+        if (order == null) {
+            throw new OrderNotFoundException(orderId);
+        }
+
+        Order updatedOrder = order.withStatus(newStatus);
+
+        orderRepo.deleteOrderById(orderId);
+        orderRepo.addOrder(updatedOrder);
+        return updatedOrder;
+    }
 }
