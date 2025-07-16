@@ -1,3 +1,4 @@
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,7 +21,8 @@ public class ShopService {
                     .orElseThrow(() -> new ProductNotFoundException(productId));
         }
 
-        orderRepo.addOrder(order);
+        Order timestampedOrder = order.withOrderTimestamp(Instant.now());
+        orderRepo.addOrder(timestampedOrder);
         return true;
     }
 
