@@ -16,9 +16,8 @@ public class ShopService {
         for (Map.Entry<Product, Integer> entry : order.products().entrySet()) {
             String productId = entry.getKey().id();
 
-            if (!productRepo.getProductById(productId).isPresent()) {
-                return false;
-            }
+            productRepo.getProductById(productId)
+                    .orElseThrow(() -> new ProductNotFoundException(productId));
         }
 
         orderRepo.addOrder(order);
