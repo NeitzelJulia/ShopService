@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,5 +55,30 @@ class ShopServiceTest {
         shopService.submitOrder(order);
 
         assertTrue(orderRepo.getAllOrders().isEmpty());
+    }
+
+    @Test
+    void getOrdersByStatus_returnsOnlyMatchingStatus() {
+        Order order1 = new Order("ORD-001", Map.of(p1, 1), OrderStatus.PROCESSING);
+        Order order2 = new Order("ORD-002", Map.of(p2, 1), OrderStatus.IN_DELIVERY);
+        Order order3 = new Order("ORD-003", Map.of(p1, 2), OrderStatus.PROCESSING);
+
+        orderRepo.addOrder(order1);
+        orderRepo.addOrder(order2);
+        orderRepo.addOrder(order3);
+
+        List<Order> processingOrders = shopService.getOrdersByStatus(OrderStatus.PROCESSING);
+
+        assertEquals(2, processingOrders.size());
+        assertTrue(processingOrders.contains(order1));
+        assertTrue(processingOrders.contains(order3));
+
+        List<Order> inDeliveryOrders = shopService.getOrdersByStatus(OrderStatus.IN_DELIVERY);
+        assertEquals(1, inDeliveryOrders.size());
+        assertTrue(inDeliveryOrders.contains(order2));
+
+        List<Order> completedOrders = shopService.getOrdersByStatus(OrderStatus.COMPLETED);
+        assertNotNull(completedOrders);
+        assertTrue(completedOrders.isEmpty());
     }
 }
