@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,8 @@ class OrderListRepoTest {
         orderListRepo = new OrderListRepo();
         Product product1 = new Product("SKU-001", "Kaffeetasse", 399L);
         Product product2 = new Product("SKU-002", "Laptop", 74900L);
-        order1 = new Order("ORD-001", Map.of(product1, 1), OrderStatus.PROCESSING);
-        order2 = new Order("ORD-002", Map.of(product2, 1), OrderStatus.PROCESSING);
+        order1 = new Order("ORD-001", Map.of(product1, 1), OrderStatus.PROCESSING, Instant.now());
+        order2 = new Order("ORD-002", Map.of(product2, 1), OrderStatus.PROCESSING, Instant.now());
     }
 
     @Test

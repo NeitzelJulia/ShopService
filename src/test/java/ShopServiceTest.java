@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,11 @@ class ShopServiceTest {
         assertTrue(result);
         List<Order> all = orderRepo.getAllOrders();
         assertEquals(1, all.size());
-        assertTrue(all.contains(order));
+        Order saved = orderRepo.getOrderById(order.id());
+        assertEquals("ORD-001", saved.id());
+        assertEquals(order.products(), saved.products());
+        assertEquals(order.status(), saved.status());
+        assertNotNull(saved.orderTimestamp());
     }
 
     @Test
@@ -59,9 +64,9 @@ class ShopServiceTest {
 
     @Test
     void getOrdersByStatus_returnsOnlyMatchingStatus() {
-        Order order1 = new Order("ORD-001", Map.of(p1, 1), OrderStatus.PROCESSING);
-        Order order2 = new Order("ORD-002", Map.of(p2, 1), OrderStatus.IN_DELIVERY);
-        Order order3 = new Order("ORD-003", Map.of(p1, 2), OrderStatus.PROCESSING);
+        Order order1 = new Order("ORD-001", Map.of(p1, 1), OrderStatus.PROCESSING, Instant.now());
+        Order order2 = new Order("ORD-002", Map.of(p2, 1), OrderStatus.IN_DELIVERY, Instant.now());
+        Order order3 = new Order("ORD-003", Map.of(p1, 2), OrderStatus.PROCESSING, Instant.now());
 
         orderRepo.addOrder(order1);
         orderRepo.addOrder(order2);
